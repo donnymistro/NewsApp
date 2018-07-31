@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <string name="section">a</string>
+    <string name="title">b</string>
+    <string name="author">c</string>
+    <string name="date">d</string>
+    <string name="body">e</string>
+    <string name="url">f</string>
+    <string name="no_stories">No New Stories</string>
+    <string name="no_internet">No Internet Connection</string>
+</resources>
