@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.list_item);
         ListView lv = findViewById(R.id.list);
         adapter = new StoryAdapter(this, new ArrayList<Story>());
         lv.setAdapter(adapter);
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
                 // Find the current story that was clicked on
                 Story currentStory = adapter.getItem(position);
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
-                assert currentStory != null;
                 Uri storyUri = Uri.parse(currentStory.getUrl());
                 // Create a new intent to view the story URI
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, storyUri);
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     }
     @Override
     public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
+        adapter.clear();
         // Hide loading indicator because the data has been loaded
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
