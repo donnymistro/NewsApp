@@ -1,7 +1,9 @@
 package com.example.android.newsapp;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+
 import java.util.List;
+
 public class StoryLoader extends AsyncTaskLoader<List<Story>> {
     /** Query URL */
     private String mUrl;
@@ -24,8 +26,8 @@ public class StoryLoader extends AsyncTaskLoader<List<Story>> {
         if (mUrl == null) {
             return null;
         }
-        // Perform the network request, parse the response, and extract a list of earthquakes.
-        List<Story> stories = (List<Story>) Utils.getStoryData(mUrl);
+        // Perform the network request, parse the response, and extract a list of stories.
+        List<Story> stories = Utils.getStoryData(mUrl);
         return stories;
     }
 }

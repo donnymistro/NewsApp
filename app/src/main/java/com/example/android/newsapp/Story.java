@@ -4,14 +4,12 @@ public class Story {
     private String mTitle;
     private String mAuthor;
     private String mDate;
-    private String mBody;
     private String mUrl;
-    public Story(String section, String title, String author, String date, String body, String url){
+    public Story(String section, String title, String author, String date, String url){
         mSection = section;
         mTitle = title;
         mAuthor = author;
         mDate = date;
-        mBody = body;
         mUrl = url;
     }
     public String getSection(){
@@ -25,9 +23,6 @@ public class Story {
     }
     public String getDate(){
         return mDate;
-    }
-    public String getBody(){
-        return mBody;
     }
     public String getUrl() {
         return mUrl;

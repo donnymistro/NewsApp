@@ -16,7 +16,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 public class Utils {
-    public static Story getStoryData(String getUrl){
+    private Utils() {
+    }
+    public static List<Story> getStoryData(String getUrl){
         URL url = createUrl(getUrl);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
@@ -25,10 +27,9 @@ public class Utils {
         } catch (IOException e) {
             Log.e("error code: ", String.valueOf(e));
         }
-        // Extract relevant fields from the JSON response and create a Story object
-
         // Return the news story
-        return extractFeatureFromJson(jsonResponse);
+        List<Story> stories = extractFeatureFromJson(jsonResponse);
+        return stories;
     }
     /**
      * Returns new URL object from the given string URL.
@@ -101,7 +102,7 @@ public class Utils {
      * about the first story from the input storyJSON string.
      */
     @SuppressLint("LongLogTag")
-    private static Story extractFeatureFromJson(String storyJSON) {
+    private static List<Story> extractFeatureFromJson(String storyJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(storyJSON)) {
             return null;
@@ -110,25 +111,30 @@ public class Utils {
         List<Story> stories = new ArrayList<>();
         try {
             JSONObject baseJsonResponse = new JSONObject(storyJSON);
-            JSONArray storyArray = baseJsonResponse.getJSONArray("features");
+            JSONObject baseJsonResponseResult = baseJsonResponse.getJSONObject("response");
+            JSONArray storyArray = baseJsonResponseResult.getJSONArray("results");
             // If there are results in the features array
             for (int i = 0; i < storyArray.length(); i++) {
                 // Extract out the first feature (which is a story)
                 JSONObject currentStory = storyArray.getJSONObject(i);
-                JSONObject properties = currentStory.getJSONObject("properties");
-                String section = properties.getString("section");
-                String title = properties.getString("title");
-                String author = properties.getString("author");
-                String date = properties.getString("date");
-                String body = properties.getString("body");
-                String url = properties.getString("url");
+                String section = currentStory.getString("sectionName");
+                String title = currentStory.getString("webTitle");
+                String author = "";
+                String date = currentStory.getString("webPublicationDate");
+                String url = currentStory.getString("webUrl");
+                // This gets the author.
+                JSONArray tagsArray = currentStory.getJSONArray("tags");
+                for (int j = 0; j < tagsArray.length(); j++) {
+                    JSONObject contributor = tagsArray.getJSONObject(j);
+                    author = contributor.getString("webTitle");
+                }
                 // Create a new Story object
-                Story story = new Story(section, title, author, date, body, url);
+                Story story = new Story(section, title, author, date, url);
                 stories.add(story);
             }
         } catch (JSONException e) {
             Log.e("Fail parsing JSON results", String.valueOf(e));
         }
-        return (Story) stories;
+        return stories;
     }
 }

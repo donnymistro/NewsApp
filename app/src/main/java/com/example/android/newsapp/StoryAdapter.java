@@ -5,8 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 public class StoryAdapter extends ArrayAdapter<Story>{
+    public String formatDate(Date dateObject) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        return dateFormat.format(dateObject);
+    }
     public StoryAdapter(Context context, List<Story> stories){
         super(context, 0, stories);
     }
@@ -23,13 +29,18 @@ public class StoryAdapter extends ArrayAdapter<Story>{
         TextView title = listItem.findViewById(R.id.title_view);
         title.setText(stories.getTitle());
         TextView author = listItem.findViewById(R.id.author_view);
-        author.setText(stories.getAuthor());
+        if (!stories.getAuthor().equals("")) {
+            author.setText(stories.getAuthor());
+            author.setVisibility(View.VISIBLE);
+        } else {
+            author.setVisibility(View.GONE);
+        }
+        Date dateObject = new Date(stories.getDate());
         TextView date = listItem.findViewById(R.id.date_view);
-        date.setText(stories.getDate());
-        TextView body = listItem.findViewById(R.id.body_view);
-        body.setText(stories.getBody());
+        String formatDate = formatDate(dateObject);
+        date.setText(formatDate);
         TextView url = listItem.findViewById(R.id.url_view);
-        body.setText(stories.getUrl());
+        url.setText(stories.getUrl());
         return listItem;
     }
 }
