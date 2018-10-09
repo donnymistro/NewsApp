@@ -8,9 +8,11 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 public class StoryAdapter extends ArrayAdapter<Story>{
     public String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE dd, yyyy", Locale.US);
         return dateFormat.format(dateObject);
     }
     public StoryAdapter(Context context, List<Story> stories){
