@@ -1,5 +1,4 @@
 package com.example.android.newsapp;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Story>>{
-    private static final String GUARDIAN_URL = "https://content.guardianapis.com/search?q=space&show-tags=contributor&api-key=key=d8d5b71d-1058-480d-87e6-f508214a26f4";
+    private static final String GUARDIAN_URL = "https://content.guardianapis.com/search?q=space&show-tags=contributor&api-key=d8d5b71d-1058-480d-87e6-f508214a26f4";
     private StoryAdapter adapter;
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
