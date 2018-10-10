@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 public class StoryAdapter extends ArrayAdapter<Story>{
     public String formatDate(Date dateObject) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE dd, yyyy", Locale.US);
@@ -37,9 +36,8 @@ public class StoryAdapter extends ArrayAdapter<Story>{
         } else {
             author.setVisibility(View.GONE);
         }
-        Date dateObject = new Date(stories.getDate());
         TextView date = listItem.findViewById(R.id.date_view);
-        String formatDate = formatDate(dateObject);
+        String formatDate = stories.getDate();
         date.setText(formatDate);
         TextView url = listItem.findViewById(R.id.url_view);
         url.setText(stories.getUrl());
