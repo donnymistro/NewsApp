@@ -1,8 +1,12 @@
 package com.example.android.newsapp;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,7 +20,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Story>>{
-    private static final String GUARDIAN_URL = "https://content.guardianapis.com/search?q=space&show-tags=contributor&api-key=d8d5b71d-1058-480d-87e6-f508214a26f4";
+    private static final String GUARDIAN_URL = "https://content.guardianapis.com/search?";
     private StoryAdapter adapter;
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
@@ -71,6 +75,22 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     }
     @Override
     public Loader<List<Story>> onCreateLoader(int i, Bundle bundle) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String science = sharedPrefs.getString(
+                getString(R.string.settings_science_key),
+                getString(R.string.settings_science_default));
+        String politics = sharedPrefs.getString(
+                getString(R.string.settings_politics_key),
+                getString(R.string.settings_politics_default));
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(GUARDIAN_URL);
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        // Append query parameter and its value.
+        uriBuilder.appendQueryParameter("q", science);
+        uriBuilder.appendQueryParameter("q", politics);
+        uriBuilder.appendQueryParameter("api-key", "d8d5b71d-1058-480d-87e6-f508214a26f4");
         // Create a new loader for the given URL
         return new StoryLoader(this, GUARDIAN_URL);
     }
@@ -92,5 +112,21 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     public void onLoaderReset(Loader < List < Story >> loader){
         // Loader reset, so we can clear out our existing data.
         adapter.clear();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
