@@ -12,12 +12,12 @@
     <string name="settings_title">News Settings</string>
     <string name="settings_section_label">Section</string>
     <string name="settings_section_key" translatable="false">section</string>
-    <string name="settings_section_default" translatable="false">space</string>
+    <string name="settings_section_default" translatable="false">technology</string>
     <string name="settings_order_by_label">Order By</string>
     <string name="settings_order_by_key" translatable="false">order-by</string>
     <string name="settings_order_by_default" translatable="false">@string/settings_order_by_topic_value</string>
-    <string name="settings_order_by_topic_label">Topic</string>
-    <string name="settings_order_by_topic_value" translatable="false">newest</string>
+    <string name="settings_order_by_topic_label">Relevance</string>
+    <string name="settings_order_by_topic_value" translatable="false">relevance</string>
     <string name="settings_order_by_newest_label">Newest</string>
     <string name="settings_order_by_newest_value" translatable="false">newest</string>
 </resources>
