@@ -77,22 +77,26 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     public Loader<List<Story>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
-        String science = sharedPrefs.getString(
-                getString(R.string.settings_science_key),
-                getString(R.string.settings_science_default));
-        String politics = sharedPrefs.getString(
-                getString(R.string.settings_politics_key),
-                getString(R.string.settings_politics_default));
+        String sectionId = sharedPrefs.getString(
+                getString(R.string.settings_section_key),
+                getString(R.string.settings_section_default));
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
         // parse breaks apart the URI string that's passed into its parameter
         Uri baseUri = Uri.parse(GUARDIAN_URL);
         // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
         Uri.Builder uriBuilder = baseUri.buildUpon();
         // Append query parameter and its value.
-        uriBuilder.appendQueryParameter("q", science);
-        uriBuilder.appendQueryParameter("q", politics);
+        uriBuilder.appendQueryParameter("section", sectionId);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("q", "space");
+        uriBuilder.appendQueryParameter("q", "politics");
+        uriBuilder.appendQueryParameter("page-size", "10");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("api-key", "d8d5b71d-1058-480d-87e6-f508214a26f4");
         // Create a new loader for the given URL
-        return new StoryLoader(this, GUARDIAN_URL);
+        return new StoryLoader(this, uriBuilder.toString());
     }
     @Override
     public void onLoadFinished(Loader<List<Story>> loader, List<Story> stories) {
